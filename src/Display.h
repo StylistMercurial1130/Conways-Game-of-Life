@@ -14,5 +14,6 @@ private :
 public : 
 
     Display(int displayWidth,int displayHeight, int resolution);
+    ~Display();
 
 };

@@ -13,3 +13,10 @@ Display :: Display(int displayWidth,int displayHeight, int resolution){
     m_Buffer = new uint32_t[rows * columns];
 
 }
+
+Display :: ~Display(){
+
+    delete m_Buffer;
+    delete m_Display;
+
+}
