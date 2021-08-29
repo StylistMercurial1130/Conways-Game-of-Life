@@ -1,4 +1,5 @@
 #include "Game.h"
+#include <iostream>
 
 Game :: Game(int height,int width,int resolution){
 
@@ -13,8 +14,35 @@ Game :: Game(int height,int width,int resolution){
     m_Gameworldbuffer = new int[row * col];
 
     for(int i = 0; i < row;i++)
-        for(int j = 0;j < col;j++)
-            m_Gameworld[j + i * col] = m_Gameworldbuffer[j + i * col] = 0;
+        for(int j = 0;j < col;j++){
+
+            m_Gameworld[j + i * col] = 0;
+            m_Gameworldbuffer[j + i * col] = 0;
+
+        }
+             
+
+}
+
+void Game :: SetGameWorld(int * gameWorldinput,int inputRowsize,int inputColsize){
+
+    
+    int row = m_Gameheigth / m_Resolution;
+    int col = m_Gamewidth / m_Resolution;
+
+    if(row != inputRowsize || col != inputColsize){
+        std::cout<<"could not set Game world ! "<<std :: endl;
+        return;
+    }
+
+    for(int i = 0;i < row;i++){
+        
+        for(int j = 0;j < col;j++){
+            m_Gameworld[j + i * col] = gameWorldinput[j + i * col];
+        }
+
+    }
+            
 
 }
 
@@ -27,21 +55,25 @@ void Game :: UpdateGameWorld(){
 
     for(int i = 0;i < row;i++){
         for(int j = 0;j < col;j++){
-
-            int state = CalculateCellState(j,i);
             
-            if(m_Gameworld[j + i * col] == 0)
-                if(state == 3)
+            int state = CalculateCellState(j,i);
+
+            if(m_Gameworld[j + i * col] == 0){
+
+                if(state == 3) 
                     m_Gameworldbuffer[j + i * col] = 1;
-            else if(m_Gameworld[j + i * col] == 1){
-                    if(state < 2 || state > 3)
-                        m_Gameworldbuffer[j + i * col] = 0;
-                    else
-                        m_Gameworldbuffer[j + i * col] = 1;
 
-                }
+            } else if(m_Gameworld[j + i * col] == 1) {
 
+                        if(state < 2 || state > 3)
+                            m_Gameworldbuffer[j + i * col] = 0;
+                        else 
+                            m_Gameworldbuffer[j + i * col] = 1;
+            
+                    }
+           
         }
+
 
     }
 
@@ -65,16 +97,21 @@ int Game ::  CalculateCellState(int x_worldPosition,int y_worldPosition){
     int col = m_Gamewidth / m_Resolution;
 
     int sum = 0;
-    for(int i = -1;i < 2;i++)
+    for(int i = -1;i < 2;i++){
+
         for(int j = - 1;j < 2;j++){
 
-            int x_Pos = (j + x_worldPosition + col) % col;
-            int y_pos = (i + y_worldPosition + row) % row;
+            int x_pos = (j + x_worldPosition);
+            int y_pos = (i + y_worldPosition);
 
-            sum += m_Gameworld[x_Pos + y_pos * col];
 
+            if((x_pos >= 0 && x_pos <= col - 1) && (y_pos >= 0 && y_pos <= row - 1) ){
+                sum += m_Gameworld[x_pos + col * y_pos];
+            }
         }
-    
+
+    }
+        
     sum -= m_Gameworld[x_worldPosition + y_worldPosition * col];
 
     return sum;

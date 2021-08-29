@@ -16,7 +16,8 @@ public :
     Game(int height,int width,int resolution);
     void ClearGameBuffer();
     void UpdateGameWorld();
-    int * Get_GameWorldBuffer(); 
+    int * Get_GameWorldBuffer();
+    void SetGameWorld(int * gameWorldinput,int inputRowsize,int inputColsize); 
     ~Game();
 
 };
