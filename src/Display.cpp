@@ -38,7 +38,7 @@ Display :: Display(int windowHeight,int windowWidth,const char * windowTitle){
     }
 
     m_Displayrect.x = m_Displayrect.y = 0;
-    m_Displayrect. h = windowHeight;
+    m_Displayrect.h = windowHeight;
     m_Displayrect.w = windowWidth;
 
 }
@@ -50,6 +50,7 @@ void Display :: InitBufferSurface(int * display,int windowWidth,int windowHeight
                                                 32,
                                                 windowWidth * sizeof(int),
                                                 0xff000000,0x00ff0000,0x0000ff00,0);
+
 
     SDL_SetSurfaceRLE(m_Buffersurface,1);
     
@@ -63,7 +64,7 @@ void Display :: Draw(int * display){
 
     SDL_UnlockSurface(m_Buffersurface);
 
-    SDL_BlitSurface(m_Buffersurface,NULL,m_Displaysurface,&m_Displayrect);
+    SDL_BlitScaled(m_Buffersurface,NULL,m_Displaysurface,&m_Displayrect);
     SDL_UpdateWindowSurface(m_Displaywindow);
 
 }
