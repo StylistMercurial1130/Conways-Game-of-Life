@@ -13,6 +13,8 @@ private :
 public : 
 
     Display(int windowHeight,int windowWidth,const char * windowTitle);
+    void InitBufferSurface(int * display,int windowWidth,int windowHeight);
+    void Draw(int * display);
     ~Display();
 
 };

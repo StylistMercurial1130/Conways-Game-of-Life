@@ -43,6 +43,31 @@ Display :: Display(int windowHeight,int windowWidth,const char * windowTitle){
 
 }
 
+void Display :: InitBufferSurface(int * display,int windowWidth,int windowHeight){
+
+    m_Buffersurface = SDL_CreateRGBSurfaceFrom( display,
+                                                windowWidth,windowHeight,
+                                                32,
+                                                windowWidth * sizeof(int),
+                                                0xff000000,0x00ff0000,0x0000ff00,0);
+
+    SDL_SetSurfaceRLE(m_Buffersurface,1);
+    
+}
+
+void Display :: Draw(int * display){
+
+    SDL_LockSurface(m_Buffersurface);
+
+    SDL_memcpy(m_Buffersurface->pixels,display,m_Buffersurface->h * m_Buffersurface->pitch);
+
+    SDL_UnlockSurface(m_Buffersurface);
+
+    SDL_BlitSurface(m_Buffersurface,NULL,m_Displaysurface,&m_Displayrect);
+    SDL_UpdateWindowSurface(m_Displaywindow);
+
+}
+
 Display :: ~Display(){
 
     SDL_FreeSurface(m_Buffersurface);
