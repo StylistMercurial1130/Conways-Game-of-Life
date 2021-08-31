@@ -47,6 +47,7 @@ void Game :: SetGameWorld(int * gameWorldinput,int inputRowsize,int inputColsize
 }
 
 int * Game :: Get_GameWorldBuffer(){ return m_Gameworldbuffer;}
+int Game :: Get_Resolution(){return m_Resolution;}
 
 void Game :: UpdateGameWorld(){
 
