@@ -2,15 +2,6 @@
 
 Display :: Display(int windowHeight,int windowWidth,const char * windowTitle){
 
-    if(SDL_Init(SDL_INIT_VIDEO) != 0){
-
-        SDL_Log("SDL could not be initialized !");
-        SDL_Log(SDL_GetError());
-
-        return;
-
-    }
-
     m_Displaywindow = SDL_CreateWindow( windowTitle,
                                         SDL_WINDOWPOS_UNDEFINED,
                                         SDL_WINDOWPOS_UNDEFINED,
