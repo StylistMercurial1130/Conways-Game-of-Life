@@ -2,7 +2,7 @@
 
 #include "SDL2/SDL.h"
 
-class Input{
+class Controller{
 
 private : 
 

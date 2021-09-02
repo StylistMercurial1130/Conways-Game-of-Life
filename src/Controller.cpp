@@ -1,8 +1,8 @@
-#include "Input.h"
+#include "Controller.h"
 #include <iostream>
 
 
-void Input :: PollInput(){
+void Controller :: PollInput(){
 
     if(SDL_PollEvent(&m_Event)){
 
@@ -15,13 +15,18 @@ void Input :: PollInput(){
 
             } break;
 
+            case SDL_QUIT : {
+
+                SDL_Quit();
+                
+            }
         }
 
     }
 
 }
 
-void Input :: PrintMousePosition(){
+void Controller :: PrintMousePosition(){
     
     std::cout<<m_Xmousepos<<"\t"<<m_Ymousepos<<std::endl;
 
