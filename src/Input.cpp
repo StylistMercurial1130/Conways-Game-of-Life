@@ -1,4 +1,6 @@
 #include "Input.h"
+#include <iostream>
+
 
 void Input :: PollInput(){
 
@@ -16,5 +18,11 @@ void Input :: PollInput(){
         }
 
     }
+
+}
+
+void Input :: PrintMousePosition(){
+    
+    std::cout<<m_Xmousepos<<"\t"<<m_Ymousepos<<std::endl;
 
 }
