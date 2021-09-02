@@ -12,5 +12,6 @@ private :
 public :
 
     void PollInput();
+    void PrintMousePosition();
 
 };
