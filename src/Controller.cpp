@@ -1,6 +1,16 @@
 #include "Controller.h"
 #include <iostream>
 
+Controller :: Controller(){states = m_States :: APPLICATION_OPEN;}
+
+bool Controller :: IsApplicationOpen(){ 
+
+    if(states == m_States :: APPLICATION_CLOSE)
+        return false;
+    else if(states == m_States :: APPLICATION_OPEN)
+                return true;
+
+}
 
 void Controller :: PollInput(){
 
@@ -17,7 +27,7 @@ void Controller :: PollInput(){
 
             case SDL_QUIT : {
 
-                SDL_Quit();
+                states = m_States :: APPLICATION_CLOSE;
                 
             }
         }
