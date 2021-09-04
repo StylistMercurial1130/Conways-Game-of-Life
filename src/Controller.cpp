@@ -31,7 +31,7 @@ void Controller :: PollInput(){
 
                 states = m_States :: APPLICATION_CLOSE;
                 
-            }
+            }break;
         }
 
     }
