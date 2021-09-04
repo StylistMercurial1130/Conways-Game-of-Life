@@ -17,5 +17,6 @@ public :
     bool IsApplicationOpen();
     void PollInput();
     void PrintMousePosition();
-
+    int GetMouseXPosition();
+    int GetMouseYPosition();
 };

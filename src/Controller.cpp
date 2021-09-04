@@ -2,6 +2,8 @@
 #include <iostream>
 
 Controller :: Controller(){states = m_States :: APPLICATION_OPEN;}
+int Controller :: GetMouseXPosition() {return m_Xmousepos;}
+int Controller :: GetMouseYPosition() {return m_Ymousepos;}
 
 bool Controller :: IsApplicationOpen(){ 
 
