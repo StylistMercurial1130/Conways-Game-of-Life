@@ -30,7 +30,9 @@ void State :: SetContext(Application * application){ this->m_Application = appli
 
 #pragma region ApplicationStates
 
-class Enter : public State{};
+class Enter : public State{
+    
+};
 
 class Pause : public State{};
 

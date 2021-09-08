@@ -25,6 +25,7 @@ protected :
 
 public : 
 
+    void SetContext(Application * application);
 
 
 };
