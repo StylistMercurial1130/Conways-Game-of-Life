@@ -37,7 +37,8 @@ private :
     State * m_State;
 
 public : 
-
+    Display display;
+    Game game;
     Application(State * state);
     void Transition(State * state);
     ~Application();

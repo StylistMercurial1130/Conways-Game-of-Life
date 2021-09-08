@@ -11,10 +11,9 @@ void Application :: Transition(State * state){
 
 }
 
-Application :: Application(State * state) : m_State(nullptr){
+Application :: Application(State * state) : m_State(nullptr) , display(480,640,"title") , game(480,640,10){
 
     this->m_State = state;
-
 }
 
 
@@ -31,7 +30,7 @@ void State :: SetContext(Application * application){ this->m_Application = appli
 #pragma region ApplicationStates
 
 class Enter : public State{
-    
+
 };
 
 class Pause : public State{};
