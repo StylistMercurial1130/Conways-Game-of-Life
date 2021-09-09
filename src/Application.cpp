@@ -46,8 +46,8 @@ void Application :: SetMousePos(int x , int y){
 
     if(m_Onmouseclick == true){
 
-        m_Mousex = x;
-        m_Mousey = y;
+        m_Mousex = x / m_resolution;
+        m_Mousey = y / m_resolution;
 
         m_Onmouseclick = false;
 
@@ -133,7 +133,7 @@ void Enter ::StateRun(){
         Set Game World for the first time here !
     */
 
-   }
+    
 
 
     this->m_Application->game.SetGameWorld( m_Newworld,
