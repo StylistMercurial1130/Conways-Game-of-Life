@@ -42,7 +42,7 @@ private :
     int m_resolution;
     int m_Mousex, m_Mousey;
     bool m_Onmouseclick;
-
+    SDL_Event m_Event;
 
 public : 
     Display display;
@@ -54,7 +54,7 @@ public :
     int GetMousePosX();
     int GetMousePosY();
     bool CheckMouseClick();
-    void SetMousePos(int x , int y);
+    void SetMousePos();
     void Run();
     void Exit();
     void Pause();

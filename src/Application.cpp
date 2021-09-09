@@ -36,26 +36,34 @@ Application :: ~Application(){
 
 int Application :: GetMousePosX(){return m_Mousex;}
 int Application :: GetMousePosY(){return m_Mousey;}
-bool Application :: CheckMouseClick(){return m_Onmouseclick;} 
 int Application :: GetWorldCol(){return m_Worldcol;}
 int Application :: GetWorldRow(){return m_Worldrow;}
 
+bool Application :: CheckMouseClick(){
+
+    if(m_Event.type == SDL_MOUSEBUTTONDOWN)
+        m_Onmouseclick = true;
+    else 
+        m_Onmouseclick = false;
+
+    return m_Onmouseclick;
+} 
 
 
-void Application :: SetMousePos(int x , int y){
+void Application :: SetMousePos(){
 
     if(m_Onmouseclick == true){
 
-        m_Mousex = x / m_resolution;
-        m_Mousey = y / m_resolution;
+        SDL_GetMouseState(&m_Mousex,&m_Mousey);
+
+        m_Mousex = m_Mousex / m_resolution;
+        m_Mousey = m_Mousey / m_resolution;
 
         m_Onmouseclick = false;
 
     }
 
 }
-
-
 
 void State :: SetContext(Application * application){ this->m_Application = application; }
 
@@ -129,20 +137,25 @@ void Enter ::StateRun(){
             m_Newworld[i] = 0;
     }
 
-    /*
-        Set Game World for the first time here !
-    */
+    if(this->m_Application->CheckMouseClick()){
 
-    
+        this->m_Application->SetMousePos();
 
+        int x = this->m_Application->GetMousePosX();
+        int y = this->m_Application->GetMousePosY();
 
-    this->m_Application->game.SetGameWorld( m_Newworld,
-                                            m_Application->GetWorldRow(),
-                                            this->m_Application->GetWorldCol());
+        m_Newworld[x + (y * this->m_Application->GetWorldCol())] = 0xfffffff;
 
+        this->m_Application->game.SetGameWorld( m_Newworld,
+                                                m_Application->GetWorldRow(),
+                                                this->m_Application->GetWorldCol());
+
+    }
 
 }
 
 void Enter :: StateExit(){ delete m_Newworld;}
+
+void Enter :: StatePause(){return;}
 
 #pragma endregion StateFunctions
