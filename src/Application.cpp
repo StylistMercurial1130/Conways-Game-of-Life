@@ -45,9 +45,12 @@ void State :: SetContext(Application * application){ this->m_Application = appli
 class Enter : public State{
 
 private : 
-    int * newWorld;
+
+    int * m_Newworld;
 
 public : 
+
+    Enter(){m_Newworld = nullptr;};
 
     virtual void StateRun() override;
     virtual void StateExit() override;
@@ -59,7 +62,6 @@ class Pause : public State{
 
 public : 
 
-    
     virtual void StateRun() override;
     virtual void StateExit() override;
     virtual void StatePause() override;
@@ -91,11 +93,21 @@ public :
 
 void Enter ::StateRun(){
 
-    this->m_Application->game.ClearGameBuffer();
+    if(m_Newworld != nullptr){
 
-    int row = m_Application->GetWorldRow();
-    int col = m_Application->GetWorldCol();
+        int row = this->m_Application->GetWorldRow();
+        int col = this->m_Application->GetWorldCol();
 
-    int * newWorld = new int[row * col];
+        m_Newworld = new int[row * col];
+
+        /*
+            Set Game World for the first time here !
+        */
+
+        this->m_Application->game.SetGameWorld(m_Newworld,row,col);
+
+        delete m_Newworld;
+
+    }
 
 }
