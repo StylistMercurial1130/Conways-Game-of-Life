@@ -40,6 +40,8 @@ private :
     int m_Worldcol , m_Worldrow;
     int m_Displayheight , m_Displaywidth;
     int m_resolution;
+    int m_Mousex, m_Mousey;
+    bool m_Onmouseclick;
 
 
 public : 
@@ -49,6 +51,10 @@ public :
     void Transition(State * state);
     int GetWorldCol();
     int GetWorldRow();
+    int GetMousePosX();
+    int GetMousePosY();
+    bool CheckMouseClick();
+    void SetMousePos(int x , int y);
     void Run();
     void Exit();
     void Pause();

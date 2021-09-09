@@ -2,15 +2,6 @@
 
 #pragma region Application
 
-void Application :: Transition(State * state){
-
-    if(m_State != nullptr)
-        delete m_State;
-    this->m_State = state;
-    this->m_State->SetContext(this);
-
-}
-
 Application :: Application( State * state, 
                             int Displayheight, int Displaywidth , 
                             int resolution , 
@@ -24,6 +15,16 @@ game(Displayheight,Displaywidth,resolution){
     m_resolution = resolution;
 
     this->m_State = state;
+
+}
+
+void Application :: Transition(State * state){
+
+    if(m_State != nullptr)
+        delete m_State;
+    this->m_State = state;
+    this->m_State->SetContext(this);
+
 }
 
 
@@ -33,10 +34,32 @@ Application :: ~Application(){
 
 }
 
+int Application :: GetMousePosX(){return m_Mousex;}
+int Application :: GetMousePosY(){return m_Mousey;}
+bool Application :: CheckMouseClick(){return m_Onmouseclick;} 
 int Application :: GetWorldCol(){return m_Worldcol;}
 int Application :: GetWorldRow(){return m_Worldrow;}
 
+
+
+void Application :: SetMousePos(int x , int y){
+
+    if(m_Onmouseclick == true){
+
+        m_Mousex = x;
+        m_Mousey = y;
+
+        m_Onmouseclick = false;
+
+    }
+
+}
+
+
+
 void State :: SetContext(Application * application){ this->m_Application = application; }
+
+
 
 #pragma endregion Application
 
@@ -91,6 +114,8 @@ public :
 
 #pragma endregion ApplicationStates
 
+#pragma region StateFunctions
+
 void Enter ::StateRun(){
 
     if(m_Newworld != nullptr){
@@ -100,14 +125,24 @@ void Enter ::StateRun(){
 
         m_Newworld = new int[row * col];
 
-        /*
-            Set Game World for the first time here !
-        */
-
-        this->m_Application->game.SetGameWorld(m_Newworld,row,col);
-
-        delete m_Newworld;
-
+        for(int i = 0; i < row * col;i++)
+            m_Newworld[i] = 0;
     }
 
+    /*
+        Set Game World for the first time here !
+    */
+
+   }
+
+
+    this->m_Application->game.SetGameWorld( m_Newworld,
+                                            m_Application->GetWorldRow(),
+                                            this->m_Application->GetWorldCol());
+
+
 }
+
+void Enter :: StateExit(){ delete m_Newworld;}
+
+#pragma endregion StateFunctions
