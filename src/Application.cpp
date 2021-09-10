@@ -143,7 +143,7 @@ void Enter :: exit(){
 void Enter :: state(){
 
     
-    if(m_Newworld != nullptr){
+    if(m_Newworld == nullptr){
 
         int row = this->m_Application->GetWorldRow();
         int col = this->m_Application->GetWorldCol();
