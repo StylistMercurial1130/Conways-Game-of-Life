@@ -25,6 +25,10 @@ protected :
 
 public : 
 
+    virtual ~State() {
+        delete m_Application;
+    }
+
     void SetContext(Application * application);
 
     virtual void pause() = 0;
@@ -32,7 +36,6 @@ public :
     virtual void exit() = 0;
     virtual void state() = 0;
 
-    ~State();
 };
 
 class Application{

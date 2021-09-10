@@ -67,11 +67,10 @@ void Application :: SetMousePos(){
 
 void State :: SetContext(Application * application){ this->m_Application = application; }
 
-
-
 #pragma endregion Application
 
 #pragma region ApplicationStates
+
 
 class Enter : public State{
 
@@ -81,51 +80,68 @@ private :
 
 public : 
 
-    Enter(){m_Newworld = nullptr;};
+    Enter(){m_Newworld = nullptr;}
 
-    virtual void StateRun() override;
-    virtual void StateExit() override;
-    virtual void StatePause() override;
-
-};
-
-class Pause : public State{
-
-public : 
-
-    virtual void StateRun() override;
-    virtual void StateExit() override;
-    virtual void StatePause() override;
-
+    virtual void pause() override;
+    virtual void run() override;
+    virtual void exit() override;
+    virtual void state() override;
 
 };
+
 
 class Exit : public State{
 
 public : 
-    
-    virtual void StateRun() override;
-    virtual void StateExit() override;
-    virtual void StatePause() override;
+
+    virtual void pause() override;
+    virtual void run() override;
+    virtual void exit() override;
+    virtual void state() override;
 
 };
+
 
 class Run : public State{
 
 public : 
 
-    virtual void StateRun() override;
-    virtual void StateExit() override;
-    virtual void StatePause() override;
+    virtual void pause() override;
+    virtual void run() override;
+    virtual void exit() override;
+    virtual void state() override;
 
 };
 
-#pragma endregion ApplicationStates
 
-#pragma region StateFunctions
+class Pause : public State{
 
-void Enter ::StateRun(){
+public : 
 
+    virtual void pause() override;
+    virtual void run() override;
+    virtual void exit() override;
+    virtual void state() override;
+
+};
+
+
+void Enter :: pause(){return;}
+
+void Enter :: run(){
+
+    this->m_Application->Transition(new Run);
+}
+
+void Enter :: exit(){
+
+    this->m_Application->Transition(new Exit);
+
+}
+
+void Enter :: state(){
+
+    
     if(m_Newworld != nullptr){
 
         int row = this->m_Application->GetWorldRow();
@@ -154,23 +170,27 @@ void Enter ::StateRun(){
 
 }
 
-void Enter :: StateExit(){ delete m_Newworld;}
+void Run :: pause(){
+    
+    this->m_Application->Transition(new Pause);
 
-void Enter :: StatePause(){return;}
+}
 
-void Run :: StateRun(){
+void Run :: run(){return;}
+
+void Run :: exit(){
+
+    this->m_Application->Transition(new Exit);
+
+}
+
+void Run :: state(){
 
     this->m_Application->game.ClearGameBuffer();
-
     this->m_Application->game.UpdateGameWorld();
-
     this->m_Application->display.Draw(this->m_Application->game.Get_GameWorldBuffer());
 
 }
 
-void Run :: StatePause(){
-    
-}
 
-
-#pragma endregion StateFunctions
+#pragma endregion ApplicationStates
