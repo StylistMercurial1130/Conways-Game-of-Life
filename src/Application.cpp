@@ -135,6 +135,7 @@ void Enter :: run(){
 
 void Enter :: exit(){
 
+    delete this->m_Newworld;
     this->m_Application->Transition(new Exit);
 
 }
