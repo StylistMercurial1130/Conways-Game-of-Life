@@ -26,10 +26,13 @@ protected :
 public : 
 
     void SetContext(Application * application);
-    virtual void StateRun() = 0;
-    virtual void StateExit() = 0;
-    virtual void StatePause() = 0;
 
+    virtual void pause() = 0;
+    virtual void run() = 0;
+    virtual void exit() = 0;
+    virtual void state() = 0;
+
+    ~State();
 };
 
 class Application{
