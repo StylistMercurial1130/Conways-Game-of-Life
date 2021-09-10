@@ -14,7 +14,7 @@ game(Displayheight,Displaywidth,resolution){
     m_Worldcol = Displaywidth / resolution;
     m_resolution = resolution;
 
-    this->m_State = state;
+    Transition(state);
 
 }
 
@@ -157,5 +157,20 @@ void Enter ::StateRun(){
 void Enter :: StateExit(){ delete m_Newworld;}
 
 void Enter :: StatePause(){return;}
+
+void Run :: StateRun(){
+
+    this->m_Application->game.ClearGameBuffer();
+
+    this->m_Application->game.UpdateGameWorld();
+
+    this->m_Application->display.Draw(this->m_Application->game.Get_GameWorldBuffer());
+
+}
+
+void Run :: StatePause(){
+    
+}
+
 
 #pragma endregion StateFunctions

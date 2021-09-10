@@ -75,8 +75,11 @@ void Game :: UpdateGameWorld(){
            
         }
 
-
     }
+
+    for(int i = 0;i < row;i++)
+        for(int j = 0;j < col;j++)
+            m_Gameworld[j + i * col] = m_Gameworldbuffer[j + i * col];
 
 }
 
