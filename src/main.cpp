@@ -1,8 +1,6 @@
-#include <iostream>
-#include "Display.h"
-#include "Controller.h"
-#include "Game.h"
+#include "Application.h"
 #include "SDL2/SDL.h"
+#include <iostream>
 
 using namespace std;
 
@@ -12,6 +10,27 @@ using namespace std;
 
 int main(int argc, char *argv[]){
 
+
+    if(SDL_Init(SDL_INIT_VIDEO) != 0){
+
+        SDL_Log("SDL could not be initalized ! \n");
+        SDL_Log(SDL_GetError());
+
+        return EXIT_FAILURE;
+
+    }
+
+
+    _main();
+
+    return 0;
+
+}
+
+
+
+
+/*
     int * gameworld = new int[(WINDOWHEIGHT/RESOLUTION) * (WINDOWWIDTH/RESOLUTION)];
     if(SDL_Init(SDL_INIT_VIDEO) != 0){
 
@@ -42,5 +61,5 @@ int main(int argc, char *argv[]){
 
     return 0;
 
+*/
 
-}

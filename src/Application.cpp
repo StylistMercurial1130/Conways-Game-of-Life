@@ -1,5 +1,9 @@
 #include "Application.h"
 
+#define WINDOWHEIGHT 480
+#define WINDOWWIDTH 640
+#define RESOLUTION 10
+
 #pragma region Application
 
 Application :: Application( State * state, 
@@ -13,6 +17,8 @@ game(Displayheight,Displaywidth,resolution){
     m_Worldrow = Displayheight / resolution;
     m_Worldcol = Displaywidth / resolution;
     m_resolution = resolution;
+
+    display.InitBufferSurface(game.Get_GameWorld(),m_Worldcol,m_Worldrow);
 
     Transition(state);
 
@@ -70,6 +76,7 @@ void State :: SetContext(Application * application){ this->m_Application = appli
 #pragma endregion Application
 
 #pragma region ApplicationStates
+
 
 
 class Enter : public State{
@@ -189,9 +196,62 @@ void Run :: state(){
 
     this->m_Application->game.ClearGameBuffer();
     this->m_Application->game.UpdateGameWorld();
-    this->m_Application->display.Draw(this->m_Application->game.Get_GameWorldBuffer());
+    
 
 }
 
+void Pause :: pause(){return;}
+
+void Pause :: run(){
+    this->m_Application->Transition(new Run);
+}
+
+void Pause :: exit(){
+
+    this->m_Application->Transition(new Exit);
+
+}
+
+void Pause :: state(){
+    
+    if(this->m_Application->CheckMouseClick()){
+
+        this->m_Application->SetMousePos();
+        int x = this->m_Application->GetMousePosX();
+        int y = this->m_Application->GetMousePosY();
+
+        this->m_Application->game.SetGameWorld(x,y);
+
+    }
+
+}
+
+void Exit :: pause(){return;}
+
+void Exit :: run(){return;}
+
+void Exit :: exit(){return;}
+
+void Exit :: state(){return;}
 
 #pragma endregion ApplicationStates
+
+#pragma region _Main
+
+
+void _main(){
+
+    Application application =  Application( new Enter,
+                                            WINDOWHEIGHT,WINDOWWIDTH,
+                                            RESOLUTION,
+                                            "Conways Game of Life");
+
+    while(1){
+
+        application.display.Draw(application.game.Get_GameWorld());
+
+    }
+
+}
+
+#pragma endregion _Main

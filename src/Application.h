@@ -67,3 +67,5 @@ public :
     ~Application();
 
 };
+
+void _main();

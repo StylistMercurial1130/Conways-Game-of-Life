@@ -24,6 +24,8 @@ Game :: Game(int height,int width,int resolution){
 
 }
 
+int *  Game :: Get_GameWorld(){return m_Gameworld;}
+
 void Game :: SetGameWorld(int * gameWorldinput,int inputRowsize,int inputColsize){
 
     
@@ -122,6 +124,18 @@ int Game ::  CalculateCellState(int x_worldPosition,int y_worldPosition){
 
 }
 
+void Game :: SetGameWorld(int x , int y){
+    
+    int row = m_Gameheigth / m_Resolution;
+    int col = m_Gameheigth / m_Resolution;
+
+    if(x <= (col - 1) && y <= (row - 1)){
+
+        m_Gameworld[x + col * y] = 0xffffffff;
+
+    }
+
+}
 
 
 Game :: ~Game(){
