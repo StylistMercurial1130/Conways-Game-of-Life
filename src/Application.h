@@ -15,6 +15,8 @@
 #include "Game.h"
 #include "Display.h"
 
+#define MAXSTATES 3
+
 class Application;
 
 class State{
@@ -48,11 +50,14 @@ private :
     int m_resolution;
     int m_Mousex, m_Mousey;
     bool m_Onmouseclick;
-    SDL_Event m_Event;
-
+    void ApplicationRun();
+    void ApplicationPause();
+    void ApplicationExit();
+     
 public : 
     Display display;
     Game game;
+    SDL_Event m_Event;
     Application(State * state, int Displayheight, int Displaywidth , int resolution , const char * windowTitle);
     void Transition(State * state);
     int GetWorldCol();
@@ -61,9 +66,8 @@ public :
     int GetMousePosY();
     bool CheckMouseClick();
     void SetMousePos();
-    void Run();
-    void Exit();
-    void Pause();
+    void (Application :: *FunctionPointers[MAXSTATES])();
+    State * GetState();
     ~Application();
 
 };

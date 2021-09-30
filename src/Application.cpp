@@ -4,6 +4,7 @@
 #define WINDOWWIDTH 640
 #define RESOLUTION 10
 
+
 #pragma region Application
 
 Application :: Application( State * state, 
@@ -19,6 +20,10 @@ game(Displayheight,Displaywidth,resolution){
     m_resolution = resolution;
 
     display.InitBufferSurface(game.Get_GameWorld(),m_Worldcol,m_Worldrow);
+
+    FunctionPointers[0] = &ApplicationRun;
+    FunctionPointers[1] = &ApplicationPause;
+    FunctionPointers[2] = &ApplicationExit;
 
     Transition(state);
 
@@ -40,6 +45,11 @@ Application :: ~Application(){
 
 }
 
+void Application :: ApplicationRun(){this->m_State->run();}
+void Application :: ApplicationPause(){this->m_State->pause();}
+void Application :: ApplicationExit(){this->m_State->exit();}
+
+State * Application :: GetState(){return m_State;}
 int Application :: GetMousePosX(){return m_Mousex;}
 int Application :: GetMousePosY(){return m_Mousey;}
 int Application :: GetWorldCol(){return m_Worldcol;}
@@ -168,7 +178,7 @@ void Enter :: state(){
         int x = this->m_Application->GetMousePosX();
         int y = this->m_Application->GetMousePosY();
 
-        m_Newworld[x + (y * this->m_Application->GetWorldCol())] = 0xfffffff;
+        m_Newworld[x + (y * this->m_Application->GetWorldCol())] = 0xfffffffff;
 
         this->m_Application->game.SetGameWorld( m_Newworld,
                                                 m_Application->GetWorldRow(),
@@ -227,7 +237,7 @@ void Pause :: state(){
 }
 
 void Exit :: pause(){return;}
-
+ 
 void Exit :: run(){return;}
 
 void Exit :: exit(){return;}
@@ -239,6 +249,7 @@ void Exit :: state(){return;}
 #pragma region _Main
 
 
+
 void _main(){
 
     Application application =  Application( new Enter,
@@ -248,6 +259,13 @@ void _main(){
 
     while(1){
 
+
+
+        SDL_PollEvent(&application.m_Event);
+        application.GetState()->state();
+
+
+
         application.display.Draw(application.game.Get_GameWorld());
 
     }
@@ -255,3 +273,5 @@ void _main(){
 }
 
 #pragma endregion _Main
+
+
