@@ -32,28 +32,11 @@ game(Displayheight,Displaywidth,resolution){
 void Application :: Transition(State * state){
 
     if(m_State != nullptr)
-        delete m_State;
+        m_State = nullptr;
     this->m_State = state;
     this->m_State->SetContext(this);
 
 }
-
-
-Application :: ~Application(){
-
-    delete m_State;
-
-}
-
-void Application :: ApplicationRun(){this->m_State->run();}
-void Application :: ApplicationPause(){this->m_State->pause();}
-void Application :: ApplicationExit(){this->m_State->exit();}
-
-State * Application :: GetState(){return m_State;}
-int Application :: GetMousePosX(){return m_Mousex;}
-int Application :: GetMousePosY(){return m_Mousey;}
-int Application :: GetWorldCol(){return m_Worldcol;}
-int Application :: GetWorldRow(){return m_Worldrow;}
 
 bool Application :: CheckMouseClick(){
 
@@ -64,7 +47,6 @@ bool Application :: CheckMouseClick(){
 
     return m_Onmouseclick;
 } 
-
 
 void Application :: SetMousePos(){
 
@@ -81,23 +63,65 @@ void Application :: SetMousePos(){
 
 }
 
+int Application :: InputToStateFunction(){
+
+    switch(m_Event.type){
+
+        case SDL_KEYDOWN : 
+                switch(m_Event.key.keysym.sym){
+
+                    case SDLK_r : return 0;
+                    break;
+
+                    case SDLK_p : return 1;
+                    break;
+
+                }
+        break;
+
+    }
+
+    return - 1;
+
+}
+
+void Application :: CallStateFunction(int functionPointerindex){
+
+    (this->*FunctionPointers[functionPointerindex])();
+}
+
+Application :: ~Application(){delete m_State;}
+void Application :: ApplicationRun(){this->m_State->run();}
+void Application :: ApplicationPause(){this->m_State->pause();}
+void Application :: ApplicationExit(){this->m_State->exit();}
+State * Application :: GetState(){return m_State;}
+int Application :: GetMousePosX(){return m_Mousex;}
+int Application :: GetMousePosY(){return m_Mousey;}
+int Application :: GetWorldCol(){return m_Worldcol;}
+int Application :: GetWorldRow(){return m_Worldrow;}
 void State :: SetContext(Application * application){ this->m_Application = application; }
+
 
 #pragma endregion Application
 
 #pragma region ApplicationStates
-
-
 
 class Enter : public State{
 
 private : 
 
     int * m_Newworld;
+    int row , col;
 
 public : 
 
-    Enter(){m_Newworld = nullptr;}
+    Enter(){
+
+        m_Newworld = nullptr;
+        row = this->m_Application->GetWorldRow();
+        col = this->m_Application->GetWorldCol();
+
+    }
 
     virtual void pause() override;
     virtual void run() override;
@@ -158,12 +182,8 @@ void Enter :: exit(){
 }
 
 void Enter :: state(){
-
     
     if(m_Newworld == nullptr){
-
-        int row = this->m_Application->GetWorldRow();
-        int col = this->m_Application->GetWorldCol();
 
         m_Newworld = new int[row * col];
 
@@ -178,13 +198,19 @@ void Enter :: state(){
         int x = this->m_Application->GetMousePosX();
         int y = this->m_Application->GetMousePosY();
 
-        m_Newworld[x + (y * this->m_Application->GetWorldCol())] = 0xfffffffff;
-
-        this->m_Application->game.SetGameWorld( m_Newworld,
-                                                m_Application->GetWorldRow(),
-                                                this->m_Application->GetWorldCol());
+        m_Newworld[x + (y * this->m_Application->GetWorldCol())] = 0xffffffff;
 
     }
+
+    this->m_Application->display.Draw(m_Newworld);
+
+    for(int i = 0; i < row * col;i++)
+        m_Newworld[i] = m_Newworld[i] == 0xffffffff ? 1 : 0;
+
+    this->m_Application->game.SetGameWorld( m_Newworld,
+                                            m_Application->GetWorldRow(),
+                                            this->m_Application->GetWorldCol());
+
 
 }
 
@@ -259,14 +285,11 @@ void _main(){
 
     while(1){
 
-
-
         SDL_PollEvent(&application.m_Event);
+        if(application.InputToStateFunction() != -1){
+            application.CallStateFunction(application.InputToStateFunction());
+        }
         application.GetState()->state();
-
-
-
-        application.display.Draw(application.game.Get_GameWorld());
 
     }
 

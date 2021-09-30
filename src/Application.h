@@ -53,6 +53,7 @@ private :
     void ApplicationRun();
     void ApplicationPause();
     void ApplicationExit();
+    void (Application :: *FunctionPointers[MAXSTATES])();
      
 public : 
     Display display;
@@ -66,7 +67,8 @@ public :
     int GetMousePosY();
     bool CheckMouseClick();
     void SetMousePos();
-    void (Application :: *FunctionPointers[MAXSTATES])();
+    int InputToStateFunction();
+    void CallStateFunction(int functionPointerindex);
     State * GetState();
     ~Application();
 

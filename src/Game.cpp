@@ -18,13 +18,14 @@ Game :: Game(int height,int width,int resolution){
 
             m_Gameworld[j + i * col] = 0;
             m_Gameworldbuffer[j + i * col] = 0;
+            m_Interface = 0x00000000;
 
         }
              
 
 }
 
-int *  Game :: Get_GameWorld(){return m_Gameworld;}
+int *  Game :: GetGameWorld(){return m_Gameworld;}
 
 void Game :: SetGameWorld(int * gameWorldinput,int inputRowsize,int inputColsize){
 
@@ -48,7 +49,7 @@ void Game :: SetGameWorld(int * gameWorldinput,int inputRowsize,int inputColsize
 
 }
 
-int * Game :: Get_GameWorldBuffer(){ return m_Gameworldbuffer;}
+int * Game :: GetGameWorldBuffer(){ return m_Gameworldbuffer;}
 int Game :: Get_Resolution(){return m_Resolution;}
 
 void Game :: UpdateGameWorld(){
@@ -69,9 +70,9 @@ void Game :: UpdateGameWorld(){
             } else if(m_Gameworld[j + i * col] == 1) {
 
                         if(state < 2 || state > 3)
-                            m_Gameworldbuffer[j + i * col] = 0;
+                            m_Gameworldbuffer[j + i * col] = 0x00000000;
                         else 
-                            m_Gameworldbuffer[j + i * col] = 1;
+                            m_Gameworldbuffer[j + i * col] = 0xffffffff;
             
                     }
            
@@ -79,9 +80,12 @@ void Game :: UpdateGameWorld(){
 
     }
 
+    
     for(int i = 0;i < row;i++)
-        for(int j = 0;j < col;j++)
-            m_Gameworld[j + i * col] = m_Gameworldbuffer[j + i * col];
+        for(int j = 0;j < col;j++){
+            m_Gameworld[j + i * col] = m_Gameworldbuffer[j + i * col] == 0xffffffff ? 1 : 0;
+        }
+            
 
 }
 
@@ -127,11 +131,11 @@ int Game ::  CalculateCellState(int x_worldPosition,int y_worldPosition){
 void Game :: SetGameWorld(int x , int y){
     
     int row = m_Gameheigth / m_Resolution;
-    int col = m_Gameheigth / m_Resolution;
+    int col = m_Gamewidth / m_Resolution;
 
     if(x <= (col - 1) && y <= (row - 1)){
 
-        m_Gameworld[x + col * y] = 0xffffffff;
+        m_Gameworld[x + col * y] = 1;
 
     }
 
