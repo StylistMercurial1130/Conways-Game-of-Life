@@ -115,7 +115,7 @@ The application is implemented by the state machine. The application has 4 state
 - Exit state quits the application.
 
 <p align="center">
-  <img src="https://github.com/StylistMercurial1130/Conways-Game-of-Life/State diagram.drawio.png" alt="State diagram.drawio" />
+  <img src="https://github.com/StylistMercurial1130/Conways-Game-of-Life/State_diagram.drawio.png" alt="State_diagram.drawio" />
 </p>
 
 ## How to Compile and Run
