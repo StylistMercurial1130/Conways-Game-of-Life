@@ -27,6 +27,7 @@ game(Displayheight,Displaywidth,resolution){
 
     Transition(state);
 
+    m_Isrunning = true;
 }
 
 void Application :: Transition(State * state){
@@ -76,7 +77,13 @@ int Application :: InputToStateFunction(){
                     case SDLK_p : return 1;
                     break;
 
+                    case SDLK_q : return 2;
+                    break;
+
                 }
+        break;
+        
+        case SDL_QUIT : return 2;
         break;
 
     }
@@ -85,11 +92,7 @@ int Application :: InputToStateFunction(){
 
 }
 
-void Application :: CallStateFunction(int functionPointerindex){
-
-    (this->*FunctionPointers[functionPointerindex])();
-}
-
+void Application :: CallStateFunction(int functionPointerindex){(this->*FunctionPointers[functionPointerindex])();}
 Application :: ~Application(){delete m_State;}
 void Application :: ApplicationRun(){this->m_State->run();}
 void Application :: ApplicationPause(){this->m_State->pause();}
@@ -100,6 +103,8 @@ int Application :: GetMousePosY(){return m_Mousey;}
 int Application :: GetWorldCol(){return m_Worldcol;}
 int Application :: GetWorldRow(){return m_Worldrow;}
 void State :: SetContext(Application * application){ this->m_Application = application; }
+bool Application :: GetIsRunning(){return m_Isrunning;}
+void Application :: ToggleIsRunning(){m_Isrunning = (!m_Isrunning);}
 
 
 #pragma endregion Application
@@ -232,13 +237,13 @@ void Pause :: state(){
 
 }
 
-void Exit :: pause(){return;}
+void Exit :: pause(){this->m_Application->ToggleIsRunning();}
  
-void Exit :: run(){return;}
+void Exit :: run(){this->m_Application->ToggleIsRunning();}
 
-void Exit :: exit(){return;}
+void Exit :: exit(){this->m_Application->ToggleIsRunning();}
 
-void Exit :: state(){return;}
+void Exit :: state(){this->m_Application->ToggleIsRunning();}
 
 #pragma endregion ApplicationStates
 
@@ -253,7 +258,7 @@ void _main(){
                                             RESOLUTION,
                                             "Conways Game of Life");
 
-    while(1){
+    while(application.GetIsRunning()){
 
         SDL_PollEvent(&application.m_Event);
         if(application.InputToStateFunction() != -1){

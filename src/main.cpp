@@ -20,8 +20,9 @@ int main(int argc, char *argv[]){
 
     }
 
-
     _main();
+
+    atexit(SDL_Quit);
 
     return 0;
 

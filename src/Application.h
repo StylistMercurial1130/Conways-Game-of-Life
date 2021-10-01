@@ -50,6 +50,7 @@ private :
     int m_resolution;
     int m_Mousex, m_Mousey;
     bool m_Onmouseclick;
+    bool m_Isrunning;
     void ApplicationRun();
     void ApplicationPause();
     void ApplicationExit();
@@ -70,6 +71,8 @@ public :
     int InputToStateFunction();
     void CallStateFunction(int functionPointerindex);
     State * GetState();
+    bool GetIsRunning();
+    void ToggleIsRunning();
     ~Application();
 
 };
