@@ -1,9 +1,9 @@
 # Conway's Game of Life
 
 ---
-<p align="center">
+
 ![Conways_Game_of_Life_SparkVideo.gif](Conways_Game_of_Life_SparkVideo.gif)
-</p>
+
 
 Conway's Game of Life is a cellular automaton devised by the British mathematician John Horton Conway in 1970.
 
@@ -112,10 +112,8 @@ The application is implemented by the state machine. The application has 4 state
 
 - Exit state quits the application.
 
-<p align="center">
 ![State diagram.drawio.png](State_diagram.drawio.png)
-</p>
-	
+
 ## How to Compile and Run
 
 ---
