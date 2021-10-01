@@ -1,6 +1,14 @@
 # Conway's Game of Life
 
+<<<<<<< HEAD
 ![Conways_Game_of_Life_SparkVideo.gif](Conways_Game_of_Life_SparkVideo.gif)
+=======
+---
+
+<p align="center">
+  <img src="Conways_Game_of_Life_SparkVideo.gif" alt="Conways_Game_of_Life_SparkVideo" />
+</p>
+>>>>>>> 367caf80c01c3199e65066e36a4a40e742ed8209
 
 Conway's Game of Life is a cellular automaton devised by the British mathematician John Horton Conway in 1970.
 
@@ -77,6 +85,8 @@ Got the idea from the Coding train, link to the video for that is below.
 
 [https://www.youtube.com/watch?v=FWSR_7kZuYg](https://www.youtube.com/watch?v=FWSR_7kZuYg)
 
+
+
 ### The Application
 
 The application is implemented by the state machine. The application has 4 states.
@@ -104,7 +114,9 @@ The application is implemented by the state machine. The application has 4 state
 
 - Exit state quits the application.
 
-![State diagram.drawio.png](State_diagram.drawio.png)
+<p align="center">
+  <img src="https://github.com/StylistMercurial1130/Conways-Game-of-Life/State_diagram.drawio.png" alt="State_diagram.drawio" />
+</p>
 
 ## How to Compile and Run
 
