@@ -1,6 +1,12 @@
 #include "Game.h"
 #include <iostream>
 
+#define FILTER(X) (X == 0xffffffff ? 1 : 0)
+#define _FILTER(X) (X == 1 ? 0xffffffff : 0x00000000)
+
+int * Game :: GetGameInterface(){return m_Interface;} 
+int Game :: GetResolution(){return m_Resolution;}
+
 Game :: Game(int height,int width,int resolution){
 
     m_Gameheigth = height;
@@ -12,45 +18,19 @@ Game :: Game(int height,int width,int resolution){
 
     m_Gameworld = new int[row * col]; 
     m_Gameworldbuffer = new int[row * col];
+    m_Interface = new int[row * col];
 
     for(int i = 0; i < row;i++)
         for(int j = 0;j < col;j++){
 
             m_Gameworld[j + i * col] = 0;
             m_Gameworldbuffer[j + i * col] = 0;
-            m_Interface = 0x00000000;
+            m_Interface[j + i * col] = 0x00000000;
 
         }
              
 
 }
-
-int *  Game :: GetGameWorld(){return m_Gameworld;}
-
-void Game :: SetGameWorld(int * gameWorldinput,int inputRowsize,int inputColsize){
-
-    
-    int row = m_Gameheigth / m_Resolution;
-    int col = m_Gamewidth / m_Resolution;
-
-    if(row != inputRowsize || col != inputColsize){
-        std::cout<<"could not set Game world ! "<<std :: endl;
-        return;
-    }
-
-    for(int i = 0;i < row;i++){
-        
-        for(int j = 0;j < col;j++){
-            m_Gameworld[j + i * col] = gameWorldinput[j + i * col];
-        }
-
-    }
-            
-
-}
-
-int * Game :: GetGameWorldBuffer(){ return m_Gameworldbuffer;}
-int Game :: Get_Resolution(){return m_Resolution;}
 
 void Game :: UpdateGameWorld(){
 
@@ -70,9 +50,9 @@ void Game :: UpdateGameWorld(){
             } else if(m_Gameworld[j + i * col] == 1) {
 
                         if(state < 2 || state > 3)
-                            m_Gameworldbuffer[j + i * col] = 0x00000000;
+                            m_Gameworldbuffer[j + i * col] = 0;
                         else 
-                            m_Gameworldbuffer[j + i * col] = 0xffffffff;
+                            m_Gameworldbuffer[j + i * col] = 1;
             
                     }
            
@@ -83,7 +63,7 @@ void Game :: UpdateGameWorld(){
     
     for(int i = 0;i < row;i++)
         for(int j = 0;j < col;j++){
-            m_Gameworld[j + i * col] = m_Gameworldbuffer[j + i * col] == 0xffffffff ? 1 : 0;
+            m_Gameworld[j + i * col] = m_Gameworldbuffer[j + i * col];
         }
             
 
@@ -128,23 +108,40 @@ int Game ::  CalculateCellState(int x_worldPosition,int y_worldPosition){
 
 }
 
-void Game :: SetGameWorld(int x , int y){
+void Game :: SetGameWorld(){
     
     int row = m_Gameheigth / m_Resolution;
     int col = m_Gamewidth / m_Resolution;
 
-    if(x <= (col - 1) && y <= (row - 1)){
-
-        m_Gameworld[x + col * y] = 1;
-
-    }
+    for(int i = 0; i < row * col;i++)
+        m_Gameworld[i] = FILTER(m_Interface[i]);
 
 }
 
+void Game :: SetGameInterface(int x , int y){
+
+    int row = m_Gameheigth / m_Resolution;
+    int col = m_Gamewidth / m_Resolution;
+
+    if(x <= (col - 1) && y <= (row - 1))
+        m_Interface[x + col * y] = 0xffffffff;
+
+}
+
+void Game :: SetGameInterface(){
+
+    int row = m_Gameheigth / m_Resolution;
+    int col = m_Gamewidth / m_Resolution;
+
+    for(int i = 0;i < row * col;i++)
+        m_Interface[i] = _FILTER(m_Gameworld[i]);
+    
+}
 
 Game :: ~Game(){
 
     delete m_Gameworld;
     delete m_Gameworldbuffer;
+    delete m_Interface;
 
 }

@@ -19,7 +19,7 @@ game(Displayheight,Displaywidth,resolution){
     m_Worldcol = Displaywidth / resolution;
     m_resolution = resolution;
 
-    display.InitBufferSurface(game.Get_GameWorld(),m_Worldcol,m_Worldrow);
+    display.InitBufferSurface(game.GetGameInterface(),m_Worldcol,m_Worldrow);
 
     FunctionPointers[0] = &ApplicationRun;
     FunctionPointers[1] = &ApplicationPause;
@@ -108,20 +108,8 @@ void State :: SetContext(Application * application){ this->m_Application = appli
 
 class Enter : public State{
 
-private : 
-
-    int * m_Newworld;
-    int row , col;
-
 public : 
 
-    Enter(){
-
-        m_Newworld = nullptr;
-        row = this->m_Application->GetWorldRow();
-        col = this->m_Application->GetWorldCol();
-
-    }
 
     virtual void pause() override;
     virtual void run() override;
@@ -176,21 +164,12 @@ void Enter :: run(){
 
 void Enter :: exit(){
 
-    delete this->m_Newworld;
     this->m_Application->Transition(new Exit);
 
 }
 
 void Enter :: state(){
     
-    if(m_Newworld == nullptr){
-
-        m_Newworld = new int[row * col];
-
-        for(int i = 0; i < row * col;i++)
-            m_Newworld[i] = 0;
-    }
-
     if(this->m_Application->CheckMouseClick()){
 
         this->m_Application->SetMousePos();
@@ -198,19 +177,10 @@ void Enter :: state(){
         int x = this->m_Application->GetMousePosX();
         int y = this->m_Application->GetMousePosY();
 
-        m_Newworld[x + (y * this->m_Application->GetWorldCol())] = 0xffffffff;
+
+        this->m_Application->game.SetGameInterface(x,y);
 
     }
-
-    this->m_Application->display.Draw(m_Newworld);
-
-    for(int i = 0; i < row * col;i++)
-        m_Newworld[i] = m_Newworld[i] == 0xffffffff ? 1 : 0;
-
-    this->m_Application->game.SetGameWorld( m_Newworld,
-                                            m_Application->GetWorldRow(),
-                                            this->m_Application->GetWorldCol());
-
 
 }
 
@@ -230,9 +200,10 @@ void Run :: exit(){
 
 void Run :: state(){
 
+    this->m_Application->game.SetGameWorld();
     this->m_Application->game.ClearGameBuffer();
     this->m_Application->game.UpdateGameWorld();
-    
+    this->m_Application->game.SetGameInterface();
 
 }
 
@@ -256,8 +227,7 @@ void Pause :: state(){
         int x = this->m_Application->GetMousePosX();
         int y = this->m_Application->GetMousePosY();
 
-        this->m_Application->game.SetGameWorld(x,y);
-
+        this->m_Application->game.SetGameInterface(x,y);
     }
 
 }
@@ -290,6 +260,7 @@ void _main(){
             application.CallStateFunction(application.InputToStateFunction());
         }
         application.GetState()->state();
+        application.display.Draw(application.game.GetGameInterface());
 
     }
 
