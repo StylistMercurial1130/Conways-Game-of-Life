@@ -1,14 +1,3 @@
-/**
- * @file Application.h
- * @author your name (you@domain.com)
- * @brief 
- * @version 0.1
- * @date 2021-09-08
- * 
- * @copyright Copyright (c) 2021
- * 
- */
-
 
 #pragma once
 
@@ -60,7 +49,7 @@ public :
     Display display;
     Game game;
     SDL_Event m_Event;
-    Application(State * state, int Displayheight, int Displaywidth , int resolution , const char * windowTitle);
+    Application(State * state, int Displayheight, int Displaywidth , int resolution , const char * windowTitle,int fps);
     void Transition(State * state);
     int GetWorldCol();
     int GetWorldRow();

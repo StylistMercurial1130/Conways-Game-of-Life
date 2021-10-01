@@ -1,6 +1,9 @@
 #include "Display.h"
 
-Display :: Display(int windowHeight,int windowWidth,const char * windowTitle){
+int Display :: GetFrameDelay(){return m_Framedelay;}
+int Display :: GetFrameRate(){return m_Fps;}
+
+Display :: Display(int windowHeight,int windowWidth,const char * windowTitle,int fps){
 
     m_Displaywindow = SDL_CreateWindow( windowTitle,
                                         SDL_WINDOWPOS_UNDEFINED,
@@ -31,6 +34,8 @@ Display :: Display(int windowHeight,int windowWidth,const char * windowTitle){
     m_Displayrect.x = m_Displayrect.y = 0;
     m_Displayrect.h = windowHeight;
     m_Displayrect.w = windowWidth;
+    m_Fps = fps;
+    m_Framedelay = 1000/m_Fps;
 
 }
 

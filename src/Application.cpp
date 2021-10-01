@@ -2,6 +2,7 @@
 
 #define WINDOWHEIGHT 480
 #define WINDOWWIDTH 640
+#define MAXFPS 15
 #define RESOLUTION 10
 
 
@@ -10,9 +11,10 @@
 Application :: Application( State * state, 
                             int Displayheight, int Displaywidth , 
                             int resolution , 
-                            const char * windowTitle) : 
+                            const char * windowTitle,
+                            int fps) : 
 m_State(nullptr) , 
-display(Displayheight,Displaywidth,windowTitle) , 
+display(Displayheight,Displaywidth,windowTitle,fps) , 
 game(Displayheight,Displaywidth,resolution){
 
     m_Worldrow = Displayheight / resolution;
@@ -256,7 +258,10 @@ void _main(){
     Application application =  Application( new Enter,
                                             WINDOWHEIGHT,WINDOWWIDTH,
                                             RESOLUTION,
-                                            "Conways Game of Life");
+                                            "Conways Game of Life",
+                                            MAXFPS);
+
+    uint32_t framestart,frametime;
 
     while(application.GetIsRunning()){
 
@@ -264,8 +269,16 @@ void _main(){
         if(application.InputToStateFunction() != -1){
             application.CallStateFunction(application.InputToStateFunction());
         }
+        
+        framestart = SDL_GetTicks();
+
         application.GetState()->state();
         application.display.Draw(application.game.GetGameInterface());
+
+        frametime = SDL_GetTicks() - framestart;
+
+        if(application.display.GetFrameDelay() > frametime)
+            SDL_Delay(application.display.GetFrameDelay() - frametime);
 
     }
 

@@ -9,12 +9,16 @@ private :
     SDL_Surface * m_Displaysurface;
     SDL_Surface * m_Buffersurface;
     SDL_Rect m_Displayrect;
+    int m_Fps;
+    int m_Framedelay;
 
 public : 
 
-    Display(int windowHeight,int windowWidth,const char * windowTitle);
+    Display(int windowHeight,int windowWidth,const char * windowTitle,int fps);
     void InitBufferSurface(int * display,int windowWidth,int windowHeight);
     void Draw(int * display);
+    int GetFrameDelay();
+    int GetFrameRate();
     ~Display();
 
 };
