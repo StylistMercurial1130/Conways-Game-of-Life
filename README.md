@@ -1,8 +1,9 @@
 # Conway's Game of Life
 
 ---
-
+<p align="center">
 ![Conways_Game_of_Life_SparkVideo.gif](Conways_Game_of_Life_SparkVideo.gif)
+</p>
 
 Conway's Game of Life is a cellular automaton devised by the British mathematician John Horton Conway in 1970.
 
@@ -81,6 +82,7 @@ This system calculates a "state" variable that is like a penalty system that wou
 
 Got the idea from the Coding train, link to the video for that is below.
 
+
 [https://www.youtube.com/watch?v=FWSR_7kZuYg](https://www.youtube.com/watch?v=FWSR_7kZuYg)
 
 ### The Application
@@ -110,8 +112,10 @@ The application is implemented by the state machine. The application has 4 state
 
 - Exit state quits the application.
 
+<p align="center">
 ![State diagram.drawio.png](State_diagram.drawio.png)
-
+</p>
+	
 ## How to Compile and Run
 
 ---
