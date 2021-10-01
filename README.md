@@ -115,7 +115,7 @@ The application is implemented by the state machine. The application has 4 state
 - Exit state quits the application.
 
 <p align="center">
-  <img src="State diagram.drawio.png" alt="State diagram.drawio" />
+  <img src="State diagram.drawio.png" alt="State diagram.drawio.png" />
 </p>
 
 ## How to Compile and Run
