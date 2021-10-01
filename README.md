@@ -1,21 +1,15 @@
 # Conway's Game of Life
 
----
-
 ![Conways_Game_of_Life_SparkVideo.gif](Conways_Game_of_Life_SparkVideo.gif)
 
 Conway's Game of Life is a cellular automaton devised by the British mathematician John Horton Conway in 1970.
 
 ## Table of Contents
 
----
-
 1. Project Overview
 2. How to compile and run
 
 ## Project Overview
-
----
 
 Conway's Game of Life, made with C++ and SDL. 
 
@@ -113,8 +107,6 @@ The application is implemented by the state machine. The application has 4 state
 ![State diagram.drawio.png](State_diagram.drawio.png)
 
 ## How to Compile and Run
-
----
 
 Makefile is used to compile the code 
 
